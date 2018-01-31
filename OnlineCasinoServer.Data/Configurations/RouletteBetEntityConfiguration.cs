@@ -13,26 +13,13 @@ namespace OnlineCasinoServer.Data.Configurations
                 .WithMany(u => u.RouletteBets)
                 .HasForeignKey(b => b.UserId);
 
-            this.HasRequired(b => b.RouletteGame)
-                .WithMany(r => r.RouletteBets)
-                .HasForeignKey(b => b.RouletteId);
-
             this.Property(p => p.Id)
                 .HasDatabaseGeneratedOption(System.ComponentModel.DataAnnotations.Schema.DatabaseGeneratedOption.Identity);
 
             this.Property(p => p.UserId)
                 .IsRequired();
 
-            this.Property(p => p.RouletteId)
-                .IsRequired();
-
-            this.Property(p => p.SpinId)
-                .IsRequired();
-
-            this.Property(p => p.BetType)
-                .IsRequired();
-
-            this.Property(p => p.BetValue)
+            this.Property(p => p.BetData)
                 .IsRequired();
 
             this.Property(p => p.SpinResult)

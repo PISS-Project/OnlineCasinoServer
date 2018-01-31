@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace OnlineCasinoServer.Core.Repositories
 {
-    public interface IBetRepository
+    public interface IDiceBetRepository
     { 
         DiceBetDto Get(int id);
         IEnumerable<DiceBetDto> GetBets(int userId, int skip, int take, string orderby, string filter);

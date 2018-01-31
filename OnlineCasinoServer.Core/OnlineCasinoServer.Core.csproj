@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="DTOs\DiceBetDTO.cs" />
     <Compile Include="DTOs\LoginDTO.cs" />
+    <Compile Include="DTOs\RouletteBetDTO.cs" />
     <Compile Include="DTOs\UserDTO.cs" />
     <Compile Include="Exceptions\BadRequestException.cs" />
     <Compile Include="Exceptions\ConflictException.cs" />
@@ -58,11 +59,13 @@
     <Compile Include="Helpers\CryptographicManager.cs" />
     <Compile Include="Helpers\TokenManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repositories\BetRepository.cs" />
-    <Compile Include="Repositories\IBetRepository.cs" />
+    <Compile Include="Repositories\DiceBetRepository.cs" />
+    <Compile Include="Repositories\IDiceBetRepository.cs" />
     <Compile Include="Repositories\ILoginRepository.cs" />
+    <Compile Include="Repositories\IRouletteBetRepository.cs" />
     <Compile Include="Repositories\IUserRepository.cs" />
     <Compile Include="Repositories\LoginRepository.cs" />
+    <Compile Include="Repositories\RouletteBetRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
   </ItemGroup>
   <ItemGroup>

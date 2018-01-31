@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace OnlineCasinoServer.Core.Repositories
 {
-    public class BetRepository : IBetRepository
+    public class DiceBetRepository : IDiceBetRepository
     {
         private DiceBetDto CreateBetDTO(DiceBet bet)
         {

@@ -55,20 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Configurations\DiceBetEntityConfiguration.cs" />
-    <Compile Include="Configurations\GameRoomEntityConfiguration.cs" />
-    <Compile Include="Configurations\GameRoomPlayerEntityConfiguration.cs" />
     <Compile Include="Configurations\LoginEntityConfiguration.cs" />
     <Compile Include="Configurations\RouletteBetEntityConfiguration.cs" />
-    <Compile Include="Configurations\RouletteGameEntityConfiguration.cs" />
-    <Compile Include="Configurations\RouletteSpinConfiguration.cs" />
     <Compile Include="Configurations\UserEntityConfiguration.cs" />
     <Compile Include="Entities\DiceBet.cs" />
-    <Compile Include="Entities\GameRoom.cs" />
-    <Compile Include="Entities\GameRoomPlayer.cs" />
     <Compile Include="Entities\Login.cs" />
     <Compile Include="Entities\RouletteBet.cs" />
-    <Compile Include="Entities\RouletteGame.cs" />
-    <Compile Include="Entities\RouletteSpin.cs" />
     <Compile Include="Entities\User.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\OnlineCasinoDb.cs" />

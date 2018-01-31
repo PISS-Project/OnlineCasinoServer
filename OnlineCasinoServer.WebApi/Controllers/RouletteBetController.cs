@@ -1,5 +1,5 @@
-﻿using OnlineCasinoServer.Core.Exceptions;
-using OnlineCasinoServer.Core.DTOs;
+﻿using OnlineCasinoServer.Core.DTOs;
+using OnlineCasinoServer.Core.Exceptions;
 using OnlineCasinoServer.Core.Repositories;
 using OnlineCasinoServer.WebApi.Requests;
 using System;
@@ -11,83 +11,53 @@ using System.Web.Http;
 
 namespace OnlineCasinoServer.WebApi.Controllers
 {
-    [RoutePrefix("api/users/{userId}/dicebets")]
-    public class DiceBetController : ApiController
+    [RoutePrefix("api/users/{userId}/roulettebets")]
+    public class RouletteBetController : ApiController
     {
         private readonly IUserRepository userRepository;
         private readonly ILoginRepository loginRepository;
-        private readonly IDiceBetRepository betRepository;
+        private readonly IRouletteBetRepository betRepository;
         private static readonly Random random = new Random();
 
-        public DiceBetController(IUserRepository userRepository, ILoginRepository loginRepository, IDiceBetRepository betRepository)
+        public RouletteBetController(IUserRepository userRepository, ILoginRepository loginRepository, IRouletteBetRepository betRepository)
         {
             this.userRepository = userRepository;
             this.loginRepository = loginRepository;
             this.betRepository = betRepository;
         }
 
-        private int RollDices()
+        private int SpinWheel()
         {
-            // Sum | Chances | Coresponding random number range
-            //  2  |  1/36   | [  1,  1]
-            //  3  |  2/36   | [  2,  3]
-            //  4  |  3/36   | [  4,  6]
-            //  5  |  4/36   | [  7, 10]
-            //  6  |  5/36   | [ 11, 15]
-            //  7  |  6/36   | [ 16, 21]
-            //  8  |  5/36   | [ 22, 26]
-            //  9  |  4/36   | [ 27, 30]
-            // 10  |  3/36   | [ 31, 33]
-            // 11  |  2/36   | [ 34, 35]
-            // 12  |  1/36   | [ 36, 36]
-            int num = random.Next(1, 37);
-
-            if (num <= 1) return 2;
-            else if (num <= 3) return 3;
-            else if (num <= 6) return 4;
-            else if (num <= 10) return 5;
-            else if (num <= 15) return 6;
-            else if (num <= 21) return 7;
-            else if (num <= 26) return 8;
-            else if (num <= 30) return 9;
-            else if (num <= 33) return 10;
-            else if (num <= 35) return 11;
-            else return 12;
+            return random.Next(0, 37);
         }
 
-        private decimal StakeMultiplier(int bet)
+        private int StakePayout(int valuesCount)
         {
-            // Sum | Chances | Multiplier
-            //  2  |  1/36   | 36 / 1 = 36
-            //  3  |  2/36   | 36 / 2 = 18
-            //  4  |  3/36   | 36 / 3 = 12
-            //  5  |  4/36   | 36 / 4 = 9
-            //  6  |  5/36   | 36 / 5 = 7.2
-            //  7  |  6/36   | 36 / 6 = 6
-            //  8  |  5/36   | 36 / 5 = 7.2
-            //  9  |  4/36   | 36 / 4 = 9
-            // 10  |  3/36   | 36 / 3 = 12
-            // 11  |  2/36   | 36 / 2 = 18
-            // 12  |  1/36   | 36 / 1 = 36
-            switch (bet)
+            // Values Count | Odds against winning | Payout
+            //      1       |         36 to 1      | 35 to 1
+            //      2       |       17.5 to 1      | 17 to 1
+            //      3       |      11.33 to 1      | 11 to 1
+            //      4       |       8.25 to 1      | 8 to 1
+            //      6       |      5.167 to 1      | 5 to 1
+            //     12       |      2.083 to 1      | 2 to 1
+            //     18       |      1.056 to 1      | 1 to 1
+
+            switch (valuesCount)
             {
+                case 1:
+                    return 35;
                 case 2:
-                case 12:
-                    return 36;
+                    return 17;
                 case 3:
-                case 11:
-                    return 18;
+                    return 11;
                 case 4:
-                case 10:
-                    return 12;
-                case 5:
-                case 9:
-                    return 9;
+                    return 8;
                 case 6:
-                case 8:
-                    return 7.2M;
-                case 7:
-                    return 6;
+                    return 5;
+                case 12:
+                    return 2;
+                case 18:
+                    return 1;
                 default:
                     return 0;
             }
@@ -95,14 +65,26 @@ namespace OnlineCasinoServer.WebApi.Controllers
 
         [HttpPost]
         [Route("")]
-        public Task<HttpResponseMessage> Bet(int userId, [FromBody] DiceBetRequest betRequest)
+        public Task<HttpResponseMessage> Bet(int userId, [FromBody] RouletteBetRequest betRequest)
         {
             string token = Request.Headers.GetValues("OnlineCasino-Token").FirstOrDefault();
             if (!loginRepository.HasUserAndToken(userId, token))
                 throw new ForbiddenException();
 
-            int userBet = betRequest.Bet;
+            int[] userBets = betRequest.BetValues;
             decimal stake = betRequest.Stake;
+
+            if (userBets.Length != 1 &&
+                userBets.Length != 2 &&
+                userBets.Length != 3 &&
+                userBets.Length != 4 &&
+                userBets.Length != 6 &&
+                userBets.Length != 12 &&
+                userBets.Length != 18)
+            {
+                throw new BadRequestException("Bet values count is invalid!");
+            }
+
 
             var user = userRepository.Get(userId);
 
@@ -110,20 +92,19 @@ namespace OnlineCasinoServer.WebApi.Controllers
                 throw new BadRequestException("Not enough money in balance!");
 
             decimal win = 0;
-            int roll = RollDices();
+            int spin = SpinWheel();
 
-            if (roll == userBet)
+            if (userBets.Contains(spin))
             {
-                decimal multiplier = StakeMultiplier(userBet);
-                win = stake * multiplier;
-                win -= win / 10; // for the house
+                int payout = StakePayout(userBets.Length);
+                win = stake + (stake * payout);
             }
 
-            var bet = new DiceBetDto()
+            var bet = new RouletteBetDto()
             {
                 UserId = userId,
-                DiceSumBet = userBet,
-                DiceSumResult = roll,
+                BetValues = userBets,
+                SpinResult = spin,
                 Stake = stake,
                 Win = win,
                 CreationDate = DateTime.Now
@@ -138,8 +119,8 @@ namespace OnlineCasinoServer.WebApi.Controllers
             var response = new
             {
                 BetId = bet.Id,
-                Bet = bet.DiceSumBet,
-                ActualRoll = bet.DiceSumResult,
+                BetValues = bet.BetValues,
+                SpinResult = bet.SpinResult,
                 Stake = bet.Stake,
                 Win = bet.Win,
                 Timestamp = bet.CreationDate
@@ -203,34 +184,13 @@ namespace OnlineCasinoServer.WebApi.Controllers
             var response = new
             {
                 CreationDate = bet.CreationDate,
-                Bet = bet.DiceSumBet,
-                ActualRoll = bet.DiceSumResult,
+                BetValues = bet.BetValues,
+                SpinResult = bet.SpinResult,
                 Stake = bet.Stake,
-                Win = bet.Win
+                Win = bet.Win                
             };
 
             return Task.FromResult(Request.CreateResponse(HttpStatusCode.OK, response));
-        }
-
-        [HttpDelete]
-        [Route("{id}")]
-        public Task<HttpResponseMessage> DeleteBet(int userId, int id)
-        {
-            string token = Request.Headers.GetValues("OnlineCasino-Token").FirstOrDefault();
-            if (!loginRepository.HasUserAndToken(userId, token))
-                throw new ForbiddenException();
-
-            var bet = betRepository.Get(id);
-
-            if (bet.UserId != userId)
-                throw new ForbiddenException();
-
-            if (DateTime.Now.AddMinutes(-1) > bet.CreationDate)
-                throw new ForbiddenException();
-
-            betRepository.Delete(id);
-
-            return Task.FromResult(Request.CreateResponse(HttpStatusCode.NoContent));
         }
     }
 }

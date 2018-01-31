@@ -32,7 +32,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockUserRepository.Setup(u => u.Get(user.Id)).Returns(user);
@@ -87,7 +87,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockUserRepository.Setup(u => u.Get(user.Id)).Returns(user);
@@ -127,7 +127,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockBetRepository.Setup(b => b.GetBets(user.Id, It.IsAny<int>(), It.IsAny<int>(), It.IsAny<string>(), It.IsAny<string>())).Returns(bets);
@@ -165,7 +165,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
 
@@ -202,7 +202,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockBetRepository.Setup(b => b.Get(bet.Id)).Returns(bet);
@@ -241,7 +241,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockBetRepository.Setup(b => b.Get(bet.Id)).Returns(bet);
@@ -270,7 +270,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockBetRepository.Setup(b => b.Get(bet.Id)).Returns(bet);
@@ -304,7 +304,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockBetRepository.Setup(b => b.Get(bet.Id)).Returns(bet);
@@ -333,7 +333,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(user.Id, It.IsAny<string>())).Returns(true);
             mockBetRepository.Setup(b => b.Get(bet.Id)).Returns(bet);
@@ -354,7 +354,7 @@ namespace OnlineCasinoServer.UnitTests
             //Arrange
             Mock<IUserRepository> mockUserRepository = new Mock<IUserRepository>();
             Mock<ILoginRepository> mockLoginRepository = new Mock<ILoginRepository>();
-            Mock<IBetRepository> mockBetRepository = new Mock<IBetRepository>();
+            Mock<IDiceBetRepository> mockBetRepository = new Mock<IDiceBetRepository>();
 
             mockLoginRepository.Setup(l => l.HasUserAndToken(1, "token")).Returns(false); // simulate invalid token
 

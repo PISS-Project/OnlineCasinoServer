@@ -42,7 +42,8 @@ namespace OnlineCasinoServer.WebApi
 
             builder.RegisterType<UserRepository>().As(typeof(IUserRepository)).SingleInstance();
             builder.RegisterType<LoginRepository>().As(typeof(ILoginRepository)).SingleInstance();
-            builder.RegisterType<BetRepository>().As(typeof(IBetRepository)).SingleInstance();
+            builder.RegisterType<DiceBetRepository>().As(typeof(IDiceBetRepository)).SingleInstance();
+            builder.RegisterType<RouletteBetRepository>().As(typeof(IRouletteBetRepository)).SingleInstance();
 
             var container = builder.Build();
 

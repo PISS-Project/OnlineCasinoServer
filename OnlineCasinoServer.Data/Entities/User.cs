@@ -14,7 +14,6 @@ namespace OnlineCasinoServer.Data.Entities
         public virtual ICollection<Login> Logins { get; set; }
         public virtual ICollection<DiceBet> DiceBets { get; set; }
         public virtual ICollection<RouletteBet> RouletteBets { get; set; }
-        public virtual GameRoomPlayer GameRoomPlayer { get; set; }
 
         public User() { }
     }
